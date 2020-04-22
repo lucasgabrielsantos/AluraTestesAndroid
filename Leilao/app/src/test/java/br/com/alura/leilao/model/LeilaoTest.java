@@ -6,21 +6,30 @@ import static org.junit.Assert.assertEquals;
 
 public class LeilaoTest {
 
-    // [nomedometodo][Estado do teste][resultado esperado]
+    /** Formas de Declarar o método de teste de unidade :
+     *
+     * [nomedometodo][Estado do teste][resultado esperado]
+     * ou
+     * [deve] [resultado esperado] [estado de teste] (mais intuitivo ainda)
+     */
+
+    /**
+     * exemplo de teste abaixo
+     */
     @Test
-    public void getDescricaoRecebeDescricaoDevolveDescricao() {
-        // criar cenário de teste
+    public void deve_DevolveDescricao_QuandoRecebeDescricao() {
+        /** criar cenário de teste */
         Leilao console = new Leilao("Console");
 
-        // executar ação esperada
+        /** executar ação esperada */
         String descricaoDevolvida = console.getDescricao();
 
-        // testar resultado esperado
+        /**testar resultado esperado */
         assertEquals("Console", descricaoDevolvida);
     }
 
     @Test
-    public void getMaiorLanceQuandoRecebeApenasUmLanceDevolveMaiorLance() {
+    public void deve_DevolveMaiorLance_QuandoRecebeApenasUmLance() {
 
         Leilao console = new Leilao("Console");
         console.propoe(new Lance(new Usuario("Lucas"), 200.0));
@@ -32,7 +41,7 @@ public class LeilaoTest {
     }
 
     @Test
-    public void getMaiorLanceQuandoRecebeMaisDeUmLanceEmOrdemCrescenteDevolveMaiorLance(){
+    public void deve_DevolveMaiorLance_QuandoRecebeMaisDeUmLanceEmOrdemCrescente() {
 
         Leilao computador = new Leilao("Computador");
         computador.propoe(new Lance(new Usuario("Lucas"), 100.0));
@@ -44,7 +53,7 @@ public class LeilaoTest {
     }
 
     @Test
-    public void getMaiorLanceQuandoRecebeMaisDeUmLanceEmOrdemDecrescenteDevolveMaiorLance(){
+    public void deve_DevolveMaiorLance_QuandoRecebeMaisDeUmLanceEmOrdemDecrescente() {
 
         Leilao carro = new Leilao("Carro");
         carro.propoe(new Lance(new Usuario("Santos"), 10000.0));
