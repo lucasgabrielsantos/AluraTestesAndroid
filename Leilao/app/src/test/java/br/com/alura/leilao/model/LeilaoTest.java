@@ -2,7 +2,7 @@ package br.com.alura.leilao.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class LeilaoTest {
 
@@ -16,5 +16,17 @@ public class LeilaoTest {
 
         // testar resultado esperado
         assertEquals("Console", descricaoDevolvida);
+    }
+
+    @Test
+    public void getMaiorLance() {
+        Leilao console = new Leilao("Console");
+        console.propoe(new Lance(new Usuario("Lucas"), 200.0));
+
+        double maiorLanceDevolvido = console.getMaiorLance();
+
+        assertEquals(200.0, maiorLanceDevolvido, 0.0001);
+
+
     }
 }
