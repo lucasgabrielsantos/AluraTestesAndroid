@@ -12,4 +12,8 @@ public class Lance implements Serializable {
         this.valor = valor;
     }
 
+
+    public double getValor() {
+        return valor;
+    }
 }
