@@ -180,4 +180,52 @@ public class LeilaoTest {
         assertEquals(1, quantidadeLancesDevolvida);
     }
 
+    @Test
+    public void naoDeve_AdicionarLance_QuandoForOMesmoUsuarioDoUltimoLance() {
+        CONSOLE.propoe(new Lance(LUCAS, 500.0));
+        CONSOLE.propoe(new Lance(LUCAS, 600.0));
+
+        int quantidadeLancesDevolvida = CONSOLE.quantidadeLances();
+
+        assertEquals(1, quantidadeLancesDevolvida);
+
+    }
+
+    @Test
+    public void naoDeve_AdiconarLance_QuandoForMesmoUsuarioDeStringEConstantesDoUltimoLance() {
+
+        CONSOLE.propoe(new Lance(LUCAS, 500.0));
+        /**
+         * Teste realizando para comparação de strings com o valor das constantes
+         *     private final Usuario LUCAS = new Usuario("Lucas");
+         **/
+        CONSOLE.propoe(new Lance(new Usuario("Lucas"), 600.0));
+
+        int quantidadeLancesDevolvido = CONSOLE.quantidadeLances();
+
+        assertEquals(1, quantidadeLancesDevolvido);
+    }
+
+    @Test
+    public void naoDeve_AdicionarLance_QuandoUsuarioDerCincoLances() {
+        CONSOLE.propoe(new Lance(LUCAS, 100.0));
+        Usuario GABRIEL = new Usuario("Gabriel");
+        CONSOLE.propoe(new Lance(GABRIEL, 200.0));
+        CONSOLE.propoe(new Lance(LUCAS, 300.0));
+        CONSOLE.propoe(new Lance(GABRIEL, 400.0));
+        CONSOLE.propoe(new Lance(LUCAS, 500.0));
+        CONSOLE.propoe(new Lance(GABRIEL, 600.0));
+        CONSOLE.propoe(new Lance(LUCAS, 700.0));
+        CONSOLE.propoe(new Lance(GABRIEL, 800.0));
+        CONSOLE.propoe(new Lance(LUCAS, 900.0));
+        CONSOLE.propoe(new Lance(GABRIEL, 1000.0));
+        CONSOLE.propoe(new Lance(LUCAS, 1100.0));
+        CONSOLE.propoe(new Lance(GABRIEL, 1200.0));
+
+        int quantidadeLancesDevolvido = CONSOLE.quantidadeLances();
+
+        assertEquals(10, quantidadeLancesDevolvido);
+
+    }
+
 }
