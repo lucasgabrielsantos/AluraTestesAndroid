@@ -50,7 +50,6 @@ public class LeilaoTest {
 
         String descricaoDevolvida = CONSOLE.getDescricao();
 
-//        assertEquals("Console", descricaoDevolvida);
         assertThat(descricaoDevolvida, is(equalTo("Console")));
 
     }
