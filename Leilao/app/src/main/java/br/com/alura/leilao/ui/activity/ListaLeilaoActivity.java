@@ -21,9 +21,11 @@ public class ListaLeilaoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_leilao);
+
         ListaLeilaoAdapter adapter = new ListaLeilaoAdapter(this, leiloesDeExemplo());
         RecyclerView recyclerView = findViewById(R.id.lista_leilao_recyclerview);
         recyclerView.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new ListaLeilaoAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Leilao leilao) {
@@ -36,17 +38,16 @@ public class ListaLeilaoActivity extends AppCompatActivity {
 
     private List<Leilao> leiloesDeExemplo() {
         Leilao console = new Leilao("Console");
-        console.propoe(new Lance(new Usuario("Gabriel"), 300.0));
-        console.propoe(new Lance(new Usuario("Lucas"), 200.0));
+        console.propoe(new Lance(new Usuario("Alex"), 200.0));
+        console.propoe(new Lance(new Usuario("Fran"), 300.0));
 
         Leilao computador = new Leilao("Computador");
-        computador.propoe(new Lance(new Usuario("Bruna"), 2500.0));
+        computador.propoe(new Lance(new Usuario("João"), 1000.0));
 
         Leilao carro = new Leilao("Carro");
-        carro.propoe(new Lance(new Usuario("Santos"), 20000.0));
-        carro.propoe(new Lance(new Usuario("Lais"), 30000.0));
-        carro.propoe(new Lance(new Usuario("Darci"), 50000.0));
-
+        carro.propoe(new Lance(new Usuario("Joana"), 10000.0));
+        carro.propoe(new Lance(new Usuario("Mario"), 15000.0));
+        carro.propoe(new Lance(new Usuario("Ana"), 17000.0));
         return new ArrayList<>(Arrays.asList(
                 console,
                 computador,
