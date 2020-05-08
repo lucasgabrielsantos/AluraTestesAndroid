@@ -22,7 +22,7 @@ public class Leilao implements Serializable {
         this.lances = new ArrayList<>();
     }
 
-    public void propoe(Lance lance){
+    public void propoe(Lance lance) {
         valida(lance);
         lances.add(lance);
         double valorLance = lance.getValor();
@@ -32,7 +32,7 @@ public class Leilao implements Serializable {
     }
 
     private boolean defineMaiorEMenorLanceParaOPrimeiroLance(double valorLance) {
-        if(lances.size() == 1){
+        if (lances.size() == 1) {
             maiorLance = valorLance;
             menorLance = valorLance;
             return true;
@@ -44,7 +44,7 @@ public class Leilao implements Serializable {
         double valorLance = lance.getValor();
         if (lanceForMenorQueOUltimoLance(valorLance))
             throw new LanceMenorQueUltimoLanceException();
-        if(temLances()){
+        if (temLances()) {
             Usuario usuarioNovo = lance.getUsuario();
             if (usuarioForOMesmoDoUltimoLance(usuarioNovo))
                 throw new LanceSeguidoDoMesmoUsuarioException();
@@ -62,9 +62,9 @@ public class Leilao implements Serializable {
         for (Lance l :
                 lances) {
             Usuario usuarioExistente = l.getUsuario();
-            if(usuarioExistente.equals(usuarioNovo)){
+            if (usuarioExistente.equals(usuarioNovo)) {
                 lancesDoUsuario++;
-                if(lancesDoUsuario == 5){
+                if (lancesDoUsuario == 5) {
                     return true;
                 }
             }
@@ -74,27 +74,27 @@ public class Leilao implements Serializable {
 
     private boolean usuarioForOMesmoDoUltimoLance(Usuario usuarioNovo) {
         Usuario ultimoUsuario = lances.get(0).getUsuario();
-        if(usuarioNovo.equals(ultimoUsuario)){
+        if (usuarioNovo.equals(ultimoUsuario)) {
             return true;
         }
         return false;
     }
 
     private boolean lanceForMenorQueOUltimoLance(double valorLance) {
-        if(maiorLance > valorLance){
+        if (maiorLance > valorLance) {
             return true;
         }
         return false;
     }
 
     private void calculaMenorLance(double valorLance) {
-        if (valorLance < menorLance){
+        if (valorLance < menorLance) {
             menorLance = valorLance;
         }
     }
 
     private void calculaMaiorLance(double valorLance) {
-        if(valorLance > maiorLance){
+        if (valorLance > maiorLance) {
             maiorLance = valorLance;
         }
     }
@@ -113,7 +113,7 @@ public class Leilao implements Serializable {
 
     public List<Lance> tresMaioresLances() {
         int quantidadeMaximaLances = lances.size();
-        if(quantidadeMaximaLances > 3){
+        if (quantidadeMaximaLances > 3) {
             quantidadeMaximaLances = 3;
         }
         return lances.subList(0, quantidadeMaximaLances);
