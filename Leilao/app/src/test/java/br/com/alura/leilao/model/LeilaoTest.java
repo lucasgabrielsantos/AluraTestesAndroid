@@ -1,8 +1,7 @@
 package br.com.alura.leilao.model;
 
-import org.junit.Rule;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.List;
 
@@ -11,7 +10,13 @@ import br.com.alura.leilao.exception.LanceSeguidoDoMesmoUsuarioException;
 import br.com.alura.leilao.exception.UsuarioJaDeuCincoLancesException;
 
 import static junit.framework.TestCase.fail;
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Formas de Declarar o método de teste de unidade :
@@ -45,7 +50,9 @@ public class LeilaoTest {
 
         String descricaoDevolvida = CONSOLE.getDescricao();
 
-        assertEquals("Console", descricaoDevolvida);
+//        assertEquals("Console", descricaoDevolvida);
+        assertThat(descricaoDevolvida, is(equalTo("Console")));
+
     }
 
     @Test
@@ -55,7 +62,8 @@ public class LeilaoTest {
 
         double maiorLanceDevolvido = CONSOLE.getMaiorLance();
 
-        assertEquals(200.0, maiorLanceDevolvido, DELTA);
+//        assertEquals(200.0, maiorLanceDevolvido, DELTA);
+        assertThat(maiorLanceDevolvido, closeTo(200.0, DELTA));
     }
 
     @Test
@@ -99,12 +107,25 @@ public class LeilaoTest {
 
         List<Lance> tresMaioresLancesDevolvido = CONSOLE.tresMaioresLances();
 
-        assertEquals(3, tresMaioresLancesDevolvido.size());
-        assertEquals(400.0, tresMaioresLancesDevolvido.get(0).getValor(), DELTA);
+        /**
+         * Uma das formas de utilizar o assertThat, verificando apenas um item.
+         *
+         -> assertThat(tresMaioresLancesDevolvido, hasItem(new Lance(LUCAS, 400)));
+         */
 
-        assertEquals(300.0, tresMaioresLancesDevolvido.get(1).getValor(), DELTA);
-
-        assertEquals(200.0, tresMaioresLancesDevolvido.get(2).getValor(), DELTA);
+        /**
+         * Uma forma para verificar mais de um item no teste.
+         assertThat(tresMaioresLancesDevolvido, contains(
+         new Lance(LUCAS, 400.0),
+         new Lance(new Usuario("Gabriel"), 300.0),
+         new Lance(LUCAS, 200.0)));
+         **/
+        assertThat(tresMaioresLancesDevolvido,
+                both(Matchers.<Lance>hasSize(3))
+                        .and(contains(
+                                new Lance(LUCAS, 400.0),
+                                new Lance(new Usuario("Gabriel"), 300.0),
+                                new Lance(LUCAS, 200.0))));
     }
 
     @Test
