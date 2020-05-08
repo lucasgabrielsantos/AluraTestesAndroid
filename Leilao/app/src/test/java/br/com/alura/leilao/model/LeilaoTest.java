@@ -1,8 +1,14 @@
 package br.com.alura.leilao.model;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.List;
+
+import br.com.alura.leilao.exception.LanceMenorQueUltimoLanceException;
+import br.com.alura.leilao.exception.LanceSeguidoDoMesmoUsuarioException;
+import br.com.alura.leilao.exception.UsuarioJaDeuCincoLancesException;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
@@ -171,48 +177,37 @@ public class LeilaoTest {
         assertEquals(0.0, menorLanceDevolvido, DELTA);
     }
 
-    @Test
+    @Test(expected = LanceMenorQueUltimoLanceException.class)
     public void naoDeve_AdicionarLance_QuandoForMenorQueOMaiorLance() {
+
         CONSOLE.propoe(new Lance(LUCAS, 500.0));
-        try {
-            CONSOLE.propoe(new Lance(new Usuario("Gabriel"), 400.0));
-            fail("Era esperada uma RuntimeException");
-        } catch (RuntimeException exeption) {
-            assertEquals("Lance foi menor que maior lance", exeption.getMessage());
-        }
+        CONSOLE.propoe(new Lance(new Usuario("Gabriel"), 400.0));
+
 
     }
 
-    @Test
+    @Test(expected = LanceSeguidoDoMesmoUsuarioException.class)
     public void naoDeve_AdicionarLance_QuandoForOMesmoUsuarioDoUltimoLance() {
         CONSOLE.propoe(new Lance(LUCAS, 500.0));
-        try {
-            CONSOLE.propoe(new Lance(LUCAS, 600.0));
-            fail("Era esperada uma RuntimeException");
-        } catch (RuntimeException exception) {
-            assertEquals("Mesmo usuário do último lance", exception.getMessage());
-        }
+        CONSOLE.propoe(new Lance(LUCAS, 600.0));
 
     }
 
-    @Test
-    public void naoDeve_AdiconarLance_QuandoForMesmoUsuarioDeStringEConstantesDoUltimoLance() {
-
+    @Test(expected = LanceSeguidoDoMesmoUsuarioException.class)
+    public void naoDeve_AdicionarLance_QuandoForMesmoUsuarioDeStringEConstantesDoUltimoLance() {
         CONSOLE.propoe(new Lance(LUCAS, 500.0));
         /**
          * Teste realizando para comparação de strings com o valor das constantes
          *     private final Usuario LUCAS = new Usuario("Lucas");
          **/
-        try {
-            CONSOLE.propoe(new Lance(new Usuario("Lucas"), 600.0));
-            fail("Era esperada uma RuntimeException");
-        } catch (RuntimeException exception) {
-            assertEquals("Mesmo usuário do último lance", exception.getMessage());
-        }
+        CONSOLE.propoe(new Lance(new Usuario("Lucas"), 600.0));
+        fail("Era esperada uma RuntimeException");
+
     }
 
-    @Test
+    @Test(expected = UsuarioJaDeuCincoLancesException.class)
     public void naoDeve_AdicionarLance_QuandoUsuarioDerCincoLances() {
+
         CONSOLE.propoe(new Lance(LUCAS, 100.0));
         Usuario GABRIEL = new Usuario("Gabriel");
         CONSOLE.propoe(new Lance(GABRIEL, 200.0));
@@ -224,11 +219,8 @@ public class LeilaoTest {
         CONSOLE.propoe(new Lance(GABRIEL, 800.0));
         CONSOLE.propoe(new Lance(LUCAS, 900.0));
         CONSOLE.propoe(new Lance(GABRIEL, 1000.0));
-        try {
-            CONSOLE.propoe(new Lance(LUCAS, 1100.0));
-            fail("Era esperada uma RuntimeException");
-        } catch (Exception exception) {
-            assertEquals("Usuário já deu cinco lances", exception.getMessage());
-        }
+
+        CONSOLE.propoe(new Lance(LUCAS, 1100.0));
+
     }
 }
