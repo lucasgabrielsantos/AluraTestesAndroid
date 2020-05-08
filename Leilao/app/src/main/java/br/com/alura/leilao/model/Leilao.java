@@ -31,13 +31,12 @@ public class Leilao implements Serializable {
     }
 
     public void propoe(Lance lance) {
-        if (lanceNaoForValido(lance)) return;
+        valida(lance);
         lances.add(lance);
         double valorLance = lance.getValor();
         if (defineMaiorEMenorLanceParaOPrimeiroLance(valorLance)) return;
         Collections.sort(lances);
         calculaMaiorLance(valorLance);
-        calculaMenorLance(valorLance);
     }
 
     private boolean defineMaiorEMenorLanceParaOPrimeiroLance(double valorLance) {
@@ -49,7 +48,7 @@ public class Leilao implements Serializable {
         return false;
     }
 
-    private boolean lanceNaoForValido(Lance lance) {
+    private void valida(Lance lance) {
         double valorLance = lance.getValor();
         if (LanceMenorQueOUltimoLance(valorLance))
             throw new LanceMenorQueUltimoLanceException();
@@ -60,7 +59,6 @@ public class Leilao implements Serializable {
             if (SeUsuarioDeuCincoLances(usuarioNovo))
                 throw new UsuarioJaDeuCincoLancesException();
         }
-        return false;
     }
 
     private boolean temLances() {
