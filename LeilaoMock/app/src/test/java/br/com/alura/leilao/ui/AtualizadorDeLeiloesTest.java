@@ -1,4 +1,6 @@
-package br.com.alura.leilao.ui.activity;
+package br.com.alura.leilao.ui;
+
+import android.content.Context;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,23 +23,25 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ListaLeilaoActivityTest {
-
+public class AtualizadorDeLeiloesTest {
 
     @Mock
     private LeilaoWebClient client;
     @Mock
     private ListaLeilaoAdapter adapter;
 
+    @Mock
+    private Context context;
+
     @Test
     public void deve_AtualizarListaDeLeiloes_QuandoBuscarLeiloesDaApi() {
-        ListaLeilaoActivity activity = new ListaLeilaoActivity();
+        AtualizadorDeLeiloes atualizador = new AtualizadorDeLeiloes();
 
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) {
                 RespostaListener<List<Leilao>> argument = invocation.getArgument(0);
-                argument.sucesso(new ArrayList<Leilao>(Arrays.asList(
+                argument.sucesso(new ArrayList<>(Arrays.asList(
                         new Leilao("Computador"),
                         new Leilao("Carro"),
                         new Leilao("Console")
@@ -46,7 +50,7 @@ public class ListaLeilaoActivityTest {
             }
         }).when(client).todos(any(RespostaListener.class));
 
-        activity.buscaLeiloes(adapter, client);
+        atualizador.buscaLeiloes(adapter, client, context);
 
         verify(client).todos(any(RespostaListener.class));
 
@@ -56,5 +60,4 @@ public class ListaLeilaoActivityTest {
                 new Leilao("Console")
         )));
     }
-
 }
