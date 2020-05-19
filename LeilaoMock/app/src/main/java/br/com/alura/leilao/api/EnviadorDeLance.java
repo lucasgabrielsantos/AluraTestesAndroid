@@ -10,7 +10,6 @@ import br.com.alura.leilao.exception.UsuarioJaDeuCincoLancesException;
 import br.com.alura.leilao.model.Lance;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.ui.dialog.AvisoDialogManager;
-import static br.com.alura.leilao.ui.dialog.AvisoDialogManager.mostraAvisoUsuarioJaDeuCincoLances;
 import static br.com.alura.leilao.ui.dialog.AvisoDialogManager.mostraToastFalhaNoEnvio;
 
 public class EnviadorDeLance {
@@ -49,7 +48,7 @@ public class EnviadorDeLance {
         } catch (LanceSeguidoDoMesmoUsuarioException exception) {
             manager.mostraAvisoLanceSeguidoDoMesmoUsuario(context);
         } catch (UsuarioJaDeuCincoLancesException exception) {
-            mostraAvisoUsuarioJaDeuCincoLances(context);
+            manager.mostraAvisoUsuarioJaDeuCincoLances(context);
         }
     }
 
