@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import br.com.alura.leilao.database.dao.UsuarioDAO;
@@ -32,7 +31,6 @@ public class AtualizadorDeUsuarioTest {
                 dao,
                 adapter,
                 recyclerView);
-
         Usuario lucas = new Usuario("Lucas");
         when(dao.salva(lucas)).thenReturn(new Usuario(1, "Lucas"));
         when(adapter.getItemCount()).thenReturn(1);
