@@ -25,7 +25,6 @@ public class ListaLeilaoTelaTest {
             new ActivityTestRule<>(ListaLeilaoActivity.class, true, false);
 
     @Test
-
     public void deve_AparecerUmLeilao_QuandoCarregarUmLeilaoNaApi() throws IOException {
         TesteWebClient webClient = new TesteWebClient();
 
@@ -43,6 +42,27 @@ public class ListaLeilaoTelaTest {
 
         onView(withText("Carro"))
                 .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void deve_AparecerDoisLeiloes_QuandoCarregarDoisLeiloesDaApi() throws IOException {
+        TesteWebClient webClient = new TesteWebClient();
+
+        boolean bancoDeDadosNãoFoiLimpo = !webClient.limpaBancoDeDados();
+        if (bancoDeDadosNãoFoiLimpo) {
+            Assert.fail("Banco de dados não foi limpo");
+        }
+
+        Leilao carroSalvo = webClient.salva(new Leilao("Carro"));
+        Leilao computadorSalvo = webClient.salva(new Leilao("Computador"));
+        if (carroSalvo == null || computadorSalvo == null) {
+            Assert.fail("Leilão não foi salvo");
+        }
+
+        activity.launchActivity(new Intent());
+
+        onView(withText("Carro")).check(matches(isDisplayed()));
+        onView(withText("Computador")).check(matches(isDisplayed()));
     }
 
 }
