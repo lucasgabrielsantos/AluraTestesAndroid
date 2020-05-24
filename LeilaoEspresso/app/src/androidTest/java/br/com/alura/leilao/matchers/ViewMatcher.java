@@ -4,10 +4,8 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-
 import br.com.alura.leilao.R;
 import br.com.alura.leilao.formatter.FormatadorDeMoeda;
 
