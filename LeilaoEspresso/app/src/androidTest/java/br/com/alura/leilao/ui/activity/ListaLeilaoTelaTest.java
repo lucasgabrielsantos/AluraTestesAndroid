@@ -82,6 +82,7 @@ public class ListaLeilaoTelaTest {
                 .check(matches(apareceLeilaoNaPosicao(9, "Casa", 0.00)));
     }
 
+
     @After
     public void tearDown() throws IOException {
         limpaBancoDeDadosDaApi();
