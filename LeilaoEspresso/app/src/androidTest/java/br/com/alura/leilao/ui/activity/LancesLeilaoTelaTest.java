@@ -98,7 +98,7 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
                 .check((matches(allOf(withText(formatador.formata(200)), isDisplayed()))));
 
         onView(withId(R.id.lances_leilao_maiores_lances))
-                .check(matches(allOf(withText("200.0 - (1) Lucas\n"), isDisplayed())));
+                .check(matches(allOf(withText(formatador.formata(200) + " - (1) Lucas\n"), isDisplayed())));
     }
 
     @Test
@@ -123,10 +123,36 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
                 .check((matches(allOf(withText(formatador.formata(200)), isDisplayed()))));
 
         onView(withId(R.id.lances_leilao_maiores_lances))
-                .check(matches(allOf(withText("400.0 - (1) Lucas\n" +
-                        "300.0 - (2) Gabriel\n" +
-                        "200.0 - (1) Lucas\n"), isDisplayed())));
+                .check(matches(allOf(withText(formatador.formata(400) + " - (1) Lucas\n" +
+                        formatador.formata(300) + " - (2) Gabriel\n" +
+                        formatador.formata(200) + " - (1) Lucas\n"), isDisplayed())));
     }
+
+
+    @Test
+    public void deve_AtualizarLancesDoLeilao_QuandoReceberUmLanceMuitoAlto() throws IOException {
+
+        tentaSalvarLeilaoNaApi(new Leilao("Carro"));
+        tentaSalvarUsuariosNoBancoDeDados(new Usuario("Lucas"));
+
+        mainActivity.launchActivity(new Intent());
+
+        onView(withId(R.id.lista_leilao_recyclerview))
+                .perform(actionOnItemAtPosition(0, click()));
+
+        propoeNovoLance("2000000000", 1, "Lucas");
+
+        FormatadorDeMoeda formatador = new FormatadorDeMoeda();
+        onView(withId(R.id.lances_leilao_maior_lance))
+                .check(matches(allOf(withText(formatador.formata(2000000000)), isDisplayed())));
+
+        onView(withId(R.id.lances_leilao_menor_lance))
+                .check((matches(allOf(withText(formatador.formata(2000000000)), isDisplayed()))));
+
+        onView(withId(R.id.lances_leilao_maiores_lances))
+                .check(matches(allOf(withText(formatador.formata(2000000000) + " - (1) Lucas\n"), isDisplayed())));
+    }
+
 
     @After
     public void teardown() throws IOException {
