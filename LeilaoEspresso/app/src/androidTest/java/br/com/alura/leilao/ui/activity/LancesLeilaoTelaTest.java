@@ -1,9 +1,11 @@
 package br.com.alura.leilao.ui.activity;
 
 import android.content.Intent;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import java.io.IOException;
 
 import br.com.alura.leilao.BaseTesteIntegracao;
 import br.com.alura.leilao.R;
+import br.com.alura.leilao.database.dao.UsuarioDAO;
 import br.com.alura.leilao.formatter.FormatadorDeMoeda;
 import br.com.alura.leilao.model.Leilao;
 import br.com.alura.leilao.model.Usuario;
@@ -85,30 +88,7 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
 
         pressBack();
 
-        onView(allOf(withId(R.id.lances_leilao_fab_adiciona),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withText("Novo lance"),
-                withId(R.id.alertTitle)))
-                .check(matches(isDisplayed()));
-
-        onView(allOf(withId(R.id.form_lance_valor_edittext),
-                isDisplayed()))
-                .perform(click(),
-                        typeText("200"),
-                        closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.form_lance_usuario),
-                isDisplayed()))
-                .perform(click());
-        onData(is(new Usuario(1, "Lucas")))
-                .inRoot(isPlatformPopup())
-                .perform(click());
-
-        onView(allOf(withText("Propor"),
-                isDisplayed()))
-                .perform(click());
+        propoeNovoLance("200", 1, "Lucas");
 
         FormatadorDeMoeda formatador = new FormatadorDeMoeda();
         onView(withId(R.id.lances_leilao_maior_lance))
@@ -121,134 +101,19 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
                 .check(matches(allOf(withText("200.0 - (1) Lucas\n"), isDisplayed())));
     }
 
-
     @Test
     public void deve_AtualizarLancesDoLeilao_QuandoReceberTresLances() throws IOException {
         tentaSalvarLeilaoNaApi(new Leilao("Carro"));
+        tentaSalvarUsuariosNoBancoDeDados(new Usuario("Lucas"), new Usuario("Gabriel"));
 
         mainActivity.launchActivity(new Intent());
 
         onView(withId(R.id.lista_leilao_recyclerview))
                 .perform(actionOnItemAtPosition(0, click()));
 
-        onView(allOf(withId(R.id.lances_leilao_fab_adiciona),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withText("Usuários não encontrados"),
-                withId(R.id.alertTitle)))
-                .check(matches(isDisplayed()));
-        onView(allOf(withText("Não existe usuários cadastrados! Cadastre um usuário para propor o lance."),
-                withId(android.R.id.message)))
-                .check(matches(isDisplayed()));
-
-        onView(allOf(withText("Cadastrar usuário"),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.lista_usuario_fab_adiciona),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.form_usuario_nome_edittext),
-                isDisplayed()))
-                .perform(click(), typeText("Lucas"),
-                        closeSoftKeyboard());
-
-        onView(allOf(withId(android.R.id.button1),
-                withText("Adicionar"),
-                isDisplayed()))
-                .perform(scrollTo(), click());
-
-        onView(allOf(withId(R.id.lista_usuario_fab_adiciona),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.form_usuario_nome_edittext),
-                isDisplayed()))
-                .perform(click(), typeText("Gabriel"),
-                        closeSoftKeyboard());
-
-        onView(allOf(withId(android.R.id.button1),
-                withText("Adicionar"),
-                isDisplayed()))
-                .perform(scrollTo(), click());
-
-        pressBack();
-
-        onView(allOf(withId(R.id.lances_leilao_fab_adiciona),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withText("Novo lance"),
-                withId(R.id.alertTitle)))
-                .check(matches(isDisplayed()));
-
-        onView(allOf(withId(R.id.form_lance_valor_edittext),
-                isDisplayed()))
-                .perform(click(),
-                        typeText("200"),
-                        closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.form_lance_usuario),
-                isDisplayed()))
-                .perform(click());
-        onData(is(new Usuario(1, "Lucas")))
-                .inRoot(isPlatformPopup())
-                .perform(click());
-
-        onView(allOf(withText("Propor"),
-                isDisplayed()))
-                .perform(click());
-        onView(allOf(withId(R.id.lances_leilao_fab_adiciona),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withText("Novo lance"),
-                withId(R.id.alertTitle)))
-                .check(matches(isDisplayed()));
-
-        onView(allOf(withId(R.id.form_lance_valor_edittext),
-                isDisplayed()))
-                .perform(click(),
-                        typeText("300"),
-                        closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.form_lance_usuario),
-                isDisplayed()))
-                .perform(click());
-        onData(is(new Usuario(2, "Gabriel")))
-                .inRoot(isPlatformPopup())
-                .perform(click());
-
-        onView(allOf(withText("Propor"),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withId(R.id.lances_leilao_fab_adiciona),
-                isDisplayed()))
-                .perform(click());
-
-        onView(allOf(withText("Novo lance"),
-                withId(R.id.alertTitle)))
-                .check(matches(isDisplayed()));
-
-        onView(allOf(withId(R.id.form_lance_valor_edittext),
-                isDisplayed()))
-                .perform(click(),
-                        typeText("400"),
-                        closeSoftKeyboard());
-
-        onView(allOf(withId(R.id.form_lance_usuario),
-                isDisplayed()))
-                .perform(click());
-        onData(is(new Usuario(1, "Lucas")))
-                .inRoot(isPlatformPopup())
-                .perform(click());
-
-        onView(allOf(withText("Propor"),
-                isDisplayed()))
-                .perform(click());
+        propoeNovoLance("200", 1, "Lucas");
+        propoeNovoLance("300", 2, "Gabriel");
+        propoeNovoLance("400", 1, "Lucas");
 
         FormatadorDeMoeda formatador = new FormatadorDeMoeda();
         onView(withId(R.id.lances_leilao_maior_lance))
@@ -261,13 +126,52 @@ public class LancesLeilaoTelaTest extends BaseTesteIntegracao {
                 .check(matches(allOf(withText("400.0 - (1) Lucas\n" +
                         "300.0 - (2) Gabriel\n" +
                         "200.0 - (1) Lucas\n"), isDisplayed())));
-
     }
 
     @After
     public void teardown() throws IOException {
         limpaBancoDeDadosDaApi();
         limpaBancoDeDadosInterno();
+    }
+
+    private void propoeNovoLance(String valorLance, int idUsuario, String nomeUsuario) {
+
+        onView(allOf(withId(R.id.lances_leilao_fab_adiciona),
+                isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withText("Novo lance"),
+                withId(R.id.alertTitle)))
+                .check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.form_lance_valor_edittext),
+                isDisplayed()))
+                .perform(click(),
+                        typeText(valorLance),
+                        closeSoftKeyboard());
+
+        onView(allOf(withId(R.id.form_lance_usuario),
+                isDisplayed()))
+                .perform(click());
+        onData(is(new Usuario(idUsuario, nomeUsuario)))
+                .inRoot(isPlatformPopup())
+                .perform(click());
+
+        onView(allOf(withText("Propor"),
+                isDisplayed()))
+                .perform(click());
+    }
+
+    private void tentaSalvarUsuariosNoBancoDeDados(Usuario... usuarios) {
+        UsuarioDAO dao = new UsuarioDAO(InstrumentationRegistry.getTargetContext());
+
+        for (Usuario usuario :
+                usuarios) {
+            Usuario usuariosSalvo = dao.salva(usuario);
+            if (usuariosSalvo == null) {
+                Assert.fail("Usuário " + usuario + " não foi salvo");
+            }
+        }
     }
 }
 

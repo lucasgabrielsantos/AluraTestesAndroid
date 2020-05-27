@@ -25,7 +25,6 @@ public abstract class BaseTesteIntegracao {
     }
 
     protected void tentaSalvarLeilaoNaApi(Leilao... leiloes) throws IOException {
-
         for (Leilao leilao : leiloes) {
             Leilao leilaoSalvo = webClient.salva(leilao);
             if (leilaoSalvo == null) {
